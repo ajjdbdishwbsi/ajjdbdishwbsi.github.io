@@ -1,0 +1,85 @@
+<html>
+    <title> MC_NaiXin's homepage </title>
+    <head>
+        <style type="text/css">
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            body{
+                background-color: rgb(240, 240, 240);
+                height: 100vh;
+            }
+            .class_buttons
+            {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: none;
+            }
+            .class_title{
+                font-size: 50px;
+                font-weight: 400;
+                text-align: center;
+                background: linear-gradient(90deg,#fffeca,#e3ffa0);
+            }
+            .class_subtitle{
+                font-size: 35px;
+                font-weight: 400;
+                color: dodgerblue;
+            }
+            .class_introduction{
+                font-size: 25px;
+                text-align: center;
+                color: rgb(255, 183, 0);
+            }
+            .class_button{
+                border-color: rgb(255, 255, 255);
+                font-size: 20px;
+                font-weight: 400;
+                background: #dddddd;
+                color: rgb(255, 0, 0);
+                position: relative;
+                display: inline-block;
+                padding: 12px 36px; /*设置长度和宽度*/
+                border-radius: 40px; /*圆角*/
+                letter-spacing: 1px; /*字符间距*/
+                text-decoration: none; /*取消链接下划线*/
+                text-transform: none; /*强制大小写*/
+                margin: 10px 20px; /*前一个值:纵向元素间距；后一个值:横向元素间距*/
+            }
+            .class_button:hover{
+                background-color: rgb(167, 255, 221);
+            }
+        </style>
+        <script type="text/javascript">
+            function goto(website) {
+                window.open(website)
+            }
+        </script>
+    </head>
+    <body>
+        <p class="class_title">欢迎来到MC_NaiXin的个人页！</p>
+        <p class="class_introduction">这里是 游戏开始慢要耐心 的个人页！以后这里会放超多好玩的！</p>
+
+
+        <subtitle class="class_subtitle">本站点里的内容：</subtitle>
+        <buttons class="class_buttons">
+            <a href="./WebMC/Minecraft1.5.2.html" class="class_button">Minecraft1.5.2网页版</a>
+            <a href="#" class="class_button">没啥用的按钮</a>
+        </buttons>
+
+        <dividing_line></dividing_line>
+
+        <subtitle class="class_subtitle">常用网站链接：</subtitle>
+        <buttons class="class_buttons">
+            <button type="button" onclick="goto('https://lchzh3473.gitee.io')" class="class_button"> lchzh3473的主页 </button>
+            <button type="button" onclick="goto('https://mc.163.com')" class="class_button"> 我的世界中国版官网 </button>
+            <button type="button" onclick="goto('https://minecraft.net')" class="class_button"> Minecraft官网 </button>
+        </buttons>
+        <buttons class="class_buttons">
+            <button type="button" onclick="goto('https://github.com')" class="class_button"> Github官网 </button>
+            <button type="button" onclick="goto('https://classic.minecraft.net')" class="class_button"> Minecraft远古网页版 </button>
+        </buttons>
+    </body>
+</html>
