@@ -48,6 +48,11 @@
                 text-transform: none; /*强制大小写*/
                 margin: 10px 20px; /*前一个值:纵向元素间距；后一个值:横向元素间距*/
             }
+            .btn_no_border{
+                border: none;
+                margin: 0 0;
+                padding: 12px 36px;
+            }
             .class_button:hover{
                 background-color: rgb(167, 255, 221);
             }
@@ -65,7 +70,9 @@
 
         <subtitle class="class_subtitle">本站点里的内容：</subtitle>
         <buttons class="class_buttons">
-            <a href="./WebMC/Minecraft1.5.2.html" class="class_button">Minecraft1.5.2网页版</a>
+            <a href="./WebMC/Minecraft1.5.2.html" class="btn_no_border">
+                <button class="class_button btn_no_border" onclick="alert('加载游戏需要5-10分钟，请耐心等待...\n点击确定开始加载')">Minecraft1.5.2网页版</button>
+            </a>
             <a href="#" class="class_button">没啥用的按钮</a>
         </buttons>
 
