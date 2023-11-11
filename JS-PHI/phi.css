@@ -1,0 +1,60 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: white;
+}
+.game_screen{
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /*水平垂直居中其中所有元素start*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*水平垂直居中其中所有元素end*/
+}
+.PigeonGames_icon{
+    vertical-align: middle;
+    text-align: center;
+    line-height: 100%;
+}
+.PigeonGames_icon img{
+    width: 65%;
+    line-height: 100%;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.Warning{
+    vertical-align: middle;
+    text-align: center;
+    line-height: 100%;
+    height: 0px;
+    width: 0px;
+}
+.Warning img{
+    width: 65%;
+    line-height: 100%;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+
+.StartBG{
+    vertical-align: middle;
+    text-align: center;
+    line-height: 100%;
+    height: 0px;
+    width: 0px;
+}
+.StartBG img{
+    width: 65%;
+    line-height: 100%;
+    vertical-align: middle;
+    object-fit: contain;
+}
