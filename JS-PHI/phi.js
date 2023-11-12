@@ -18,7 +18,6 @@ function wait(ms){
 //fadeIn(元素代号，总时间-ms)
 function fadeIn(element,time) {
     var opacity_ = 0.1;  // 初始透明度为0.1
-    element.style.display = 'block';  // 显示元素
     var timer_ = setInterval(function () {
         if (opacity_ >= 1){
             clearInterval(timer_);  // 清除计时器
@@ -33,7 +32,6 @@ function fadeIn(element,time) {
 //fadeOut(元素代号，总时间-ms)
 function fadeOut(element,time) {
     var opacity_ = 1;  // 初始透明度为1
-    element.style.display = 'block';  // 显示元素
     var timer_ = setInterval(function () {
         if (opacity_ <= 0.05){
             clearInterval(timer_);  // 清除计时器
@@ -44,6 +42,18 @@ function fadeOut(element,time) {
     }, time/100);  // 每time/100毫秒执行一次，实现渐出效果
 }
 
+//hide
+function hide(ele) {
+    ele.style.opacity = '0';
+    ele.style.height = '0px';
+    ele.style.width = '0px';
+}
+//show
+function show(ele) {
+    ele.style.opacity = '1';
+    ele.style.height = 'auto';
+    ele.style.width = 'auto';
+}
 
 
 
@@ -52,7 +62,12 @@ function fadeOut(element,time) {
 var PigeonGames_icon = document.getElementById('PigeonGames_icon');
 var Startscreen_Warning = document.getElementById('Warning');
 var StartBG = document.getElementById('StartBG');
+var phigros_icon = document.getElementById('phigros_icon');
 PigeonGames_icon.style.opacity = '0';
+hide(StartBG)
+
+
+const TouchToStart = new Audio('./audio-assets/TouchToStart.wav')
 
 
 
@@ -71,9 +86,7 @@ var gametime_ = setInterval(function () {
         fadeOut(PigeonGames_icon,300)
     }
     if (gametime == 1001){
-        PigeonGames_icon.style.opacity = '0';
-        PigeonGames_icon.style.height = '0px';
-        PigeonGames_icon.style.width = '0px';
+        hide(PigeonGames_icon)
     }
 //end pigeon图标展示
 
@@ -90,23 +103,32 @@ var gametime_ = setInterval(function () {
         fadeOut(Startscreen_Warning,300)
     }
     if (gametime == 2160){
-        Startscreen_Warning.style.opacity = '0';
-        Startscreen_Warning.style.height = '0px';
-        Startscreen_Warning.style.width = '0px';
+        hide(Startscreen_Warning)
     }
 //end Warning
 
 //start BG
     if (gametime == 2161){
         StartBG.style.opacity = '0';
-        StartBG.style.height = 'auto';
-        StartBG.style.width = 'auto';
-        StartBG.style.backgroundSize = 'cover';
+        StartBG.style.height = '100%';
+        StartBG.style.width = '100%';
     }
     if (gametime == 2162){
+
+        show(phigros_icon)
+        phigros_icon.style.width = '30%';
         fadeIn(StartBG,300)
+        fadeIn(phigros_icon,300)
+        TouchToStart.play()
+        TouchToStart.loop = true;
+        //TouchToStart.pause;
     }
 //end BG
+
+
+
+
+
 
 /*
     if (gametime == 2962){
