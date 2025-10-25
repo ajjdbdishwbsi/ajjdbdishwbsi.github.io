@@ -1,0 +1,96 @@
+/**
+ * 主动画时间线控制
+ * 根据全局时间执行不同的动画序列
+ */
+function executeAnimationTimeline() {
+    // 时间点 100: 第一张图片淡入
+    if (globalTime === 100) {
+        fadeInImage(0, 'Width', 0.7, 1000);
+    }
+    
+    // 时间点 380: 第一张图片淡出
+    if (globalTime === 380) {
+        fadeOutImage(0, 'Width', 0.7, 1000);
+    }
+    
+    // 时间点 500: 第二张图片淡入 (重置透明度状态)
+    if (globalTime === 500) {
+        fadeInOpacity = 0;
+        fadeOutOpacity = 1;
+        fadeInImage(1, 'Width', 0.8, 1000);
+    }
+    
+    // 时间点 800: 第二张图片淡出
+    if (globalTime === 800) {
+        fadeOutImage(1, 'Width', 0.8, 1000);
+    }
+    
+    // 时间点 900: 第三张图片淡入并播放音频 (重置透明度状态)
+    if (globalTime === 900) {
+        fadeInOpacity = 0;
+        fadeOutOpacity = 1;
+        
+        // 取消音频静音并播放
+        audios[0].currentTime = 0;
+        playAudio(0);
+        
+        fadeInImage(2, 'Height', 1, 1000);
+    }
+    
+    globalTime++;
+    console.log("Animation tick:", globalTime);
+}
+
+/**
+ * 主循环函数
+ * @param {number} interval - 循环间隔(ms)
+ */
+function mainLoop(interval) {
+    executeAnimationTimeline();
+    
+    // 使用setTimeout继续循环
+    setTimeout(() => {
+        mainLoop(interval);
+    }, interval);
+}
+
+/**
+ * 启动动画序列
+ */
+function startAnimation() {
+    resetAnimationState();
+    enterFullscreen();
+    stopAndResetAllAudios();
+    mainLoop(frame_interval);
+    startButton.disabled = true;
+}
+
+/**
+ * 停止动画序列
+ */
+function stopAnimation() {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    }
+    stopAndResetAllAudios();
+    resetAnimationState();
+    startButton.disabled = false;
+}
+
+
+
+
+
+// 导出函数供其他模块使用 (如果使用模块系统)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        startAnimation,
+        stopAnimation,
+        playAudio,
+        pauseAudio,
+        setVolume,
+        enterFullscreen,
+        exitFullscreen
+    };
+}

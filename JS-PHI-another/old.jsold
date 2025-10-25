@@ -1,0 +1,167 @@
+const canvas = document.getElementById('Screen');
+const ctx = canvas.getContext('2d');
+const startButton = document.getElementById('startButton');
+let images = []; // 存储图片对象的数组
+let fadeInOpacity = 0;
+let fadeOutOpacity = 1;
+let gt = 0;
+const fadeOutOpacityStep = 0.01;
+const canvasWidth = 1920;
+const canvasHeight = 1080;
+startButton.disabled = true
+// 设置Canvas绘图区域大小为1920x1080
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
+
+// 设置音频源
+const audioSources = [
+    'audio-assets/TouchToStart.wav'
+];
+// 创建一个数组来存储音频元素
+const audios = [];
+// 记录已加载的音频数量
+let audiosLoaded = 0;
+audioSources.forEach((src, index) => {
+    audios[index] = new Audio();
+    audios[index].src = src;
+    //audios[index].autoplay = true; // 设置自动播放
+    //audios[index].muted = true; // 初始时静音
+    audios[index].addEventListener('canplaythrough', () => {
+        audiosLoaded++;
+        if (audiosLoaded === audioSources.length) {
+            // 所有音频加载完成，可以启用开始按钮
+            //startButton.disabled = false;
+        }
+    });
+});
+// 定义播放、暂停和设置音量的函数
+function playAudio(audioID) {
+    audios[audioID].play();
+}
+function pauseAudio(audioID) {
+    audios[audioID].pause();
+}
+function setVolume(audioID, volume) {
+    audios[audioID].volume = volume; // 音量范围是0到1
+}
+// 终止所有音频播放并将播放位置重置到开始处
+function stopAndResetAllAudios() {
+    audios.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0; // 重置音频播放位置
+    });
+}
+
+// 设置图片源
+const imageSources = ['assets/PigeonGames.jpg', 'assets/Warning.jpg','assets/MainStoryLegacyBlur.png'];
+let imagesLoaded = 0;
+imageSources.forEach((src, index) => {
+    images[index] = new Image();
+    images[index].src = src;
+    images[index].onload = () => {
+        imagesLoaded++;
+        if (imagesLoaded === imageSources.length) {
+            startButton.disabled = false;
+        }
+    };
+});
+
+// 渐入图片(图片编号，图片大小，动画时间ms)
+function fadeInImage(index, sizemode, size, duration) {
+    const fadeStep = 1 / (duration / (1000 / 60)); // 根据持续时间计算每帧增加的透明度
+    fadeInOpacity = Math.min(fadeInOpacity + fadeStep, 1); // 限制透明度不超过1
+    ctx.globalAlpha = fadeInOpacity;
+    drawImage(images[index], sizemode, size);
+    if (fadeInOpacity < 1) {
+        requestAnimationFrame(() => fadeInImage(index, sizemode, size, duration)); // 递归调用，直到透明度达到1
+    }
+}
+// 渐出图片
+function fadeOutImage(index, sizemode, size, duration) {
+    const fadeStep = 1 / (duration / (1000 / 60)); // 根据持续时间计算每帧减少的透明度
+    fadeOutOpacity = Math.max(fadeOutOpacity - fadeStep, 0); // 限制透明度不小于0
+    ctx.globalAlpha = fadeOutOpacity;
+    drawImage(images[index], sizemode, size);
+    if (fadeOutOpacity > 0) {
+        requestAnimationFrame(() => fadeOutImage(index, sizemode, size, duration)); // 递归调用，直到透明度达到0
+    }
+}
+// 绘制图片居中
+function drawImage(image,sizemode,size) {
+    if (sizemode == 'Width'){
+        const imgWidth = canvasWidth * size;
+        const imgHeight = imgWidth * (image.height / image.width);
+        const x = (canvasWidth - imgWidth) / 2;
+        const y = (canvasHeight - imgHeight) / 2;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除画布内容
+        ctx.drawImage(image, x, y, imgWidth, imgHeight);
+    }
+    if (sizemode == 'Height'){
+        const imgHeight = canvasHeight * size;
+        const imgWidth = imgHeight * (image.width / image.height);
+        const x = (canvasWidth - imgWidth) / 2;
+        const y = (canvasHeight - imgHeight) / 2;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除画布内容
+        ctx.drawImage(image, x, y, imgWidth, imgHeight);
+    }
+    
+}
+
+// 全屏模式
+function enterFullscreen() {
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.mozRequestFullScreen) {
+        canvas.mozRequestFullScreen();
+    } else if (canvas.webkitRequestFullscreen) {
+        canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) {
+        canvas.msRequestFullscreen();
+    }
+}
+
+
+function mainFunction(interval) {
+    // 主程序
+    if (gt == 100){
+        fadeInImage(0,'Width',0.7,1000);
+    }
+    if (gt == 380){
+        fadeOutImage(0,'Width',0.7,1000);
+    }
+    if (gt == 500){
+        fadeInOpacity = 0;
+        fadeOutOpacity = 1;
+        fadeInImage(1,'Width',0.8,1000);
+    }
+    if (gt == 800){
+        fadeOutImage(1,'Width',0.8,1000);
+    }
+    if (gt == 900){
+        fadeInOpacity = 0;
+        fadeOutOpacity = 1;
+        audios[0].muted = false
+        audios[0].play();
+        fadeInImage(2,'Height',1,1000);
+    }
+    gt++;
+    console.log("Tick", gt);
+    // 使用setTimeout递归调用repeatFunction
+    setTimeout(function() {
+        mainFunction(interval);
+    }, interval);
+}
+// 绑定按钮事件
+startButton.addEventListener('click', () => {
+    enterFullscreen();
+//    audios.forEach(audio => {
+//        audio.muted = false; // 取消静音
+//        audio.play().catch(error => {
+//            // 如果无法播放，则可能是因为用户没有与页面交互
+//            console.error("Audio play failed:", error);
+//        });
+//    });
+//    stopAndResetAllAudios()
+    mainFunction(10);
+    startButton.disabled = true;
+});
